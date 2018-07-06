@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="small">8dp</dimen>
+    <dimen name="recycler_section_header_height">30dp</dimen>
+</resources>
