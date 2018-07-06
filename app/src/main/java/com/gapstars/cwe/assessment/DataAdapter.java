@@ -7,18 +7,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.gapstars.cwe.assessment.model.Example;
+import com.gapstars.cwe.assessment.model.JobItem;
 
+import java.util.Collection;
 import java.util.List;
 
 
-public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder> {
+public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
-    private final List<Example> people;
-    private final int          rowLayout;
+    private final List<JobItem> list;
+    private final int rowLayout;
 
-    public PersonAdapter(List<Example> people, @LayoutRes int rowLayout) {
-        this.people = people;
+    public DataAdapter(List<JobItem> people, @LayoutRes int rowLayout) {
+        this.list = people;
         this.rowLayout = rowLayout;
     }
 
@@ -28,15 +29,22 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
         return new ViewHolder(view);
     }
 
+    public void addAll(Collection<? extends JobItem> collection) {
+        if (collection != null) {
+            list.addAll(collection);
+            notifyDataSetChanged();
+        }
+    }
+
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Example person = people.get(position);
+        JobItem person = list.get(position);
         holder.fullName.setText(person.title);
     }
 
     @Override
     public int getItemCount() {
-        return people.size();
+        return list.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

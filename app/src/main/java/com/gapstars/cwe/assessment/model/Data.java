@@ -15,17 +15,17 @@ import java.util.Map;
 public class Data {
     @SerializedName("data")
     @Expose
-    private Map<String, ArrayList<Example>> elemDetails = new HashMap<>();
+    private Map<String, ArrayList<JobItem>> elemDetails = new HashMap<>();
 
-    public Map<String, ArrayList<Example>> getElemDetails() {
+    public Map<String, ArrayList<JobItem>> getElemDetails() {
         return elemDetails;
     }
 
-    public void setElemDetails(Map<String, ArrayList<Example>> elemDetails) {
+    public void setElemDetails(Map<String, ArrayList<JobItem>> elemDetails) {
         this.elemDetails = elemDetails;
     }
 
-    public Collection<ArrayList<Example>> getValues(){
+    public Collection<ArrayList<JobItem>> getValues(){
         return elemDetails.values();
     }
 }
