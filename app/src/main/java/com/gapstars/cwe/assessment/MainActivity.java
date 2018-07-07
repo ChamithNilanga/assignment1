@@ -1,7 +1,7 @@
 package com.gapstars.cwe.assessment;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -13,7 +13,6 @@ import java.util.List;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -73,18 +72,11 @@ public class MainActivity extends AppCompatActivity{
                 ServiceClient.getInstance().getStarredRepos()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .doOnNext(result ->{
-                            compositeSubscription.add(
-                                    Observable.from(result.getValues())
-                                            .map(new Func1<ArrayList<JobItem>, ArrayList<JobItem>>() {
-                                                @Override
-                                                public ArrayList<JobItem> call(ArrayList<JobItem> list) {
-                                                    return list;
-                                                }
-                                            }).subscribe(r -> {
-                                        adapter.addAll(r);
-                                    }));
-                        })
+                        .doOnNext(result -> compositeSubscription.add(
+                                Observable.from(result.getValues())
+                                        .map(list -> list).subscribe(r -> {
+                                    adapter.addAll(r);
+                                })))
                         .subscribe()
         );
     }
