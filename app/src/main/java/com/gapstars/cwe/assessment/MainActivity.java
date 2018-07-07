@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity{
 
         recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        adapter = new DataAdapter(jobItems, R.layout.list_item);
+        adapter = new DataAdapter(jobItems, R.layout.post_item);
         recyclerView.setAdapter(adapter);
 
         RecyclerSectionItemDecoration sectionItemDecoration =
@@ -44,18 +44,18 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-    private RecyclerSectionItemDecoration.SectionCallback getSectionCallback(final List<JobItem> people) {
+    private RecyclerSectionItemDecoration.SectionCallback getSectionCallback(final List<JobItem> jobItems) {
         return new RecyclerSectionItemDecoration.SectionCallback() {
             @Override
             public boolean isSection(int position) {
                 return position == 0
-                        || !(people.get(position).date.date.subSequence(0,10)
-                        .equals(people.get(position - 1).date.date.subSequence(0,10)));
+                        || !(jobItems.get(position).date.date.subSequence(0,10)
+                        .equals(jobItems.get(position - 1).date.date.subSequence(0,10)));
             }
 
             @Override
             public CharSequence getSectionHeader(int position) {
-                return people.get(position)
+                return jobItems.get(position)
                         .date.date.subSequence(0,10);
             }
         };
