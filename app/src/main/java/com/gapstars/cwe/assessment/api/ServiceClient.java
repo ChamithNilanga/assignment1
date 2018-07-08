@@ -14,26 +14,26 @@ import rx.Observable;
  * Created by cwe on 7/5/2018.
  */
 
-public class GitHubClient {
+public class ServiceClient {
 
-    private static final String GITHUB_BASE_URL = "https://raw.githubusercontent.com/ChamithNilanga/Gapstars/master/";
+    private static final String BASE_URL = "https://raw.githubusercontent.com/ChamithNilanga/Gapstars/master/";
 
-    private static GitHubClient instance;
+    private static ServiceClient instance;
     private Service gitHubService;
 
-    private GitHubClient() {
+    private ServiceClient() {
         final Gson gson =
                 new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
-        final Retrofit retrofit = new Retrofit.Builder().baseUrl(GITHUB_BASE_URL)
+        final Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         gitHubService = retrofit.create(Service.class);
     }
 
-    public static GitHubClient getInstance() {
+    public static ServiceClient getInstance() {
         if (instance == null) {
-            instance = new GitHubClient();
+            instance = new ServiceClient();
         }
         return instance;
     }
