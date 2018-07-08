@@ -1,11 +1,15 @@
 package com.gapstars.cwe.assessment;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.gapstars.cwe.assessment.api.Service;
+import com.gapstars.cwe.assessment.api.ServiceClient;
 import com.gapstars.cwe.assessment.model.JobItem;
 
 import java.util.ArrayList;
@@ -33,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
 
+    @BindView(R.id.progress_layout)
+    RelativeLayout progressLayout;
+
     @Inject
     Service service;
 
@@ -54,7 +61,12 @@ public class MainActivity extends AppCompatActivity {
                         true,
                         getSectionCallback(jobItems));
         recyclerView.addItemDecoration(sectionItemDecoration);
-        getData();
+        compositeSubscription = new CompositeSubscription();
+        if (isConnected()) {
+            getData();
+        } else {
+            showError();
+        }
 
     }
 
@@ -89,8 +101,29 @@ public class MainActivity extends AppCompatActivity {
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnNext(result -> compositeSubscription.add(
                                 Observable.from(result.getValues())
-                                        .map(list -> list).subscribe(r -> adapter.addAll(r))))
+                                        .map(list -> list).subscribe(r -> {
+                                            adapter.addAll(r);
+                                            progressLayout.setVisibility(View.GONE);
+                                        })))
                         .subscribe()
         );
+    }
+
+    private boolean isConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
+    private void showError(){
+        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+        alertDialog.setTitle(String.format(getString(R.string.alert)));
+        alertDialog.setMessage(String.format(getString(R.string.error)));
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL,String.format(getString(R.string.ok)),
+                (dialog, which) -> {
+                    progressLayout.setVisibility(View.GONE);
+                    dialog.dismiss();
+                });
+        alertDialog.show();
     }
 }
