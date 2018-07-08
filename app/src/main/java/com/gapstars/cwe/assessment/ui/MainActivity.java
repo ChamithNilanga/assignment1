@@ -1,4 +1,4 @@
-package com.gapstars.cwe.assessment;
+package com.gapstars.cwe.assessment.ui;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -8,8 +8,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.RelativeLayout;
 
-import com.gapstars.cwe.assessment.api.ServiceClient;
+import com.gapstars.cwe.assessment.R;
+import com.gapstars.cwe.assessment.common.RecyclerSectionItemDecoration;
+import com.gapstars.cwe.assessment.api.Service;
 import com.gapstars.cwe.assessment.model.JobItem;
 
 import java.util.ArrayList;
@@ -61,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                         true,
                         getSectionCallback(jobItems));
         recyclerView.addItemDecoration(sectionItemDecoration);
-        compositeSubscription = new CompositeSubscription();
+
         if (isConnected()) {
             getData();
         } else {
@@ -102,9 +106,9 @@ public class MainActivity extends AppCompatActivity {
                         .doOnNext(result -> compositeSubscription.add(
                                 Observable.from(result.getValues())
                                         .map(list -> list).subscribe(r -> {
-                                            adapter.addAll(r);
-                                            progressLayout.setVisibility(View.GONE);
-                                        })))
+                                    adapter.addAll(r);
+                                    progressLayout.setVisibility(View.GONE);
+                                })))
                         .subscribe()
         );
     }
@@ -115,11 +119,11 @@ public class MainActivity extends AppCompatActivity {
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
-    private void showError(){
+    private void showError() {
         AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
         alertDialog.setTitle(String.format(getString(R.string.alert)));
         alertDialog.setMessage(String.format(getString(R.string.error)));
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL,String.format(getString(R.string.ok)),
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, String.format(getString(R.string.ok)),
                 (dialog, which) -> {
                     progressLayout.setVisibility(View.GONE);
                     dialog.dismiss();

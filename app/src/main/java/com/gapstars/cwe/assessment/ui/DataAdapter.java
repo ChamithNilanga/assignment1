@@ -1,4 +1,4 @@
-package com.gapstars.cwe.assessment;
+package com.gapstars.cwe.assessment.ui;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;
@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.gapstars.cwe.assessment.R;
 import com.gapstars.cwe.assessment.model.JobItem;
 import com.squareup.picasso.Picasso;
 

@@ -1,4 +1,4 @@
-package com.gapstars.cwe.assessment;
+package com.gapstars.cwe.assessment.common;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.gapstars.cwe.assessment.R;
 
 /**
  * https://github.com/paetztm/recycler_view_headers

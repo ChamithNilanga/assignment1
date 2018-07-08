@@ -1,4 +1,6 @@
-package com.gapstars.cwe.assessment.di;
+package com.gapstars.cwe.assessment.ui;
+
+import com.gapstars.cwe.assessment.di.ActivityScoped;
 
 import dagger.Module;
 import dagger.Provides;
