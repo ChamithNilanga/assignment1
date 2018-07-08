@@ -5,4 +5,7 @@
     <string name="place_holder_review">%d reviews</string>
     <string name="place_holder_rate">€ %.2f/u</string>
     <string name="place_holder_tempers">%d</string>
+    <string name="alert">Alert!</string>
+    <string name="error">Something went wrong.</string>
+    <string name="ok">OK</string>
 </resources>
