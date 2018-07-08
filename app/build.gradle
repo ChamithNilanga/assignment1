@@ -14,6 +14,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', 'BASE_URL', '"https://raw.githubusercontent.com/ChamithNilanga/Gapstars/master/"'
+        }
+
+        debug{
+            buildConfigField 'String', 'BASE_URL', '"https://raw.githubusercontent.com/ChamithNilanga/Gapstars/master/"'
         }
     }
 
@@ -43,5 +48,11 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.jakewharton:butterknife:8.8.1'
+
+
+    implementation "com.google.dagger:dagger-android:2.13"
+    annotationProcessor "com.google.dagger:dagger-compiler:2.13"
+    annotationProcessor "com.google.dagger:dagger-android-processor:2.13"
+    implementation "com.google.dagger:dagger-android-support:2.13"
 
 }

@@ -5,15 +5,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.gapstars.cwe.assessment.api.ServiceClient;
+import com.gapstars.cwe.assessment.api.Service;
 import com.gapstars.cwe.assessment.model.JobItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import dagger.android.AndroidInjection;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -21,7 +24,8 @@ import rx.subscriptions.CompositeSubscription;
 
 public class MainActivity extends AppCompatActivity {
 
-    private CompositeSubscription compositeSubscription;
+    @Inject
+    CompositeSubscription compositeSubscription;
     private List<JobItem> jobItems = new ArrayList<>();
     private DataAdapter adapter;
     private Unbinder unbinder;
@@ -29,8 +33,12 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
 
+    @Inject
+    Service service;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         unbinder = ButterKnife.bind(this);
@@ -46,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
                         true,
                         getSectionCallback(jobItems));
         recyclerView.addItemDecoration(sectionItemDecoration);
-        compositeSubscription = new CompositeSubscription();
         getData();
 
     }
@@ -77,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void getData() {
         compositeSubscription.add(
-                ServiceClient.getInstance().getStarredRepos()
+                service.getData()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnNext(result -> compositeSubscription.add(
