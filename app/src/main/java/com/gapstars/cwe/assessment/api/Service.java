@@ -6,10 +6,6 @@ import com.gapstars.cwe.assessment.model.Data;
 import retrofit2.http.GET;
 import rx.Observable;
 
-/**
- * Created by cwe on 3/6/2018.
- */
-
 public interface Service {
 
     @GET("jobsearch.json")

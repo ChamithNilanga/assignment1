@@ -8,10 +8,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by cwe on 7/5/2018.
- */
-
 public class Data {
     @SerializedName("data")
     @Expose
